@@ -1,0 +1,51 @@
+---
+title: "Statistical Inference Course Project"
+author: "S Sagara"
+output:
+  pdf_document: default
+  html_document: default
+---
+The project consists of two parts
+A simulation exercise.
+Basic inferential data analysis.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#The 1000 exponential simulations are run 40 times and the average of the simulatons is calculated.
+mns = NULL
+for (i in 1 : 40) mns = c(mns, mean(rexp(1000,0.2)))
+
+simulation.mean <- mean(mns)
+theoretical.mean <- 1/0.2
+
+simulation.mean
+theoretical.mean
+#Difference between simulation mean and theoretical mean
+#The calculation shows that the simulation mean is very close to the theoretical mean.
+simulation.mean - theoretical.mean
+
+#Variance of simulation
+#The 1000 exponential simulations are run 40 times and the variance of the simulatons is calculated.
+vns = NULL
+for (i in 1 : 40) vns = c(vns, var(rexp(1000,0.2)))
+simulation.var <- mean(vns)
+simulation.var
+
+#Variance of theoretical distribution
+theoretical.std <- 1/0.2
+theoretical.var <- theoretical.std^2
+theoretical.var
+
+#Difference between simulation variance and theoretical variance
+#The calculations shows that the simulation variance is very close to the theoretical variance.
+simulation.var - theoretical.var
+
+
+#Distribution of sample mean is approximately normal as the peak of the histogram is aroung the mean and the shape of the graph is bell-shape.
+hist(mns,xlab = "Exponential Mean")
+
+```
