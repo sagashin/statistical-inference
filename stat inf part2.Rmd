@@ -1,0 +1,79 @@
+---
+title: "Statistical Inference Course Project"
+author: S Sagara
+output:
+  html_document: default
+  pdf_document: default
+---
+
+This is 2 Basic inferential data analysis.
+
+Load the ToothGrowth data
+```{r}
+library(datasets)
+df <- ToothGrowth
+#Summary statistics
+summary(df)
+#plot for len by supp in dose facets
+#It appears that there is a positive correlation between len and dose.
+library(ggplot2)
+ggplot(df, aes(supp,len))+
+        geom_boxplot(outlier.color = "red",fill="green") +
+        facet_grid(.~dose)
+
+#confidence intervals and/or hypothesis tests
+df_oj <- df[df["supp"]=="OJ",]
+df_oj_0.5 <- df_oj[df_oj["dose"]==0.5,]
+df_oj_1.0 <- df_oj[df_oj["dose"]==1,]
+df_oj_2.0 <- df_oj[df_oj["dose"]==2,]
+
+df_vc <- df[df["supp"]=="VC",]
+df_vc_0.5 <- df_vc[df_vc["dose"]==0.5,]
+df_vc_1.0 <- df_vc[df_vc["dose"]==1,]
+df_vc_2.0 <- df_vc[df_vc["dose"]==2,]
+```
+H0: There is no difference in len among doses.
+Ha: There is difference in len among doses.
+alpha = .05 in two sided test, thus .025 in one side
+OJ
+
+Supp OJ for dose between 0.5 and 1.0
+H0 is rejected with p-value of 8.785e-05 and the test indicates there is difference.
+95% Confidence interval is (-13.415634  -5.524366).
+```{r echo=F}
+t.test(df_oj_0.5$len, df_oj_1.0$len,var.equal = F)
+```
+Supp OJ for dose between 0.5 and 2.0
+H0 is rejected with p-value of 1.324e-06 and the test indicates there is difference.
+95% Confidence interval is (-16.335241  -9.324759)
+```{r echo=F}
+t.test(df_oj_0.5$len, df_oj_2.0$len,var.equal = F)
+```
+Supp OJ for dose between 1.0 and 2.0
+H0 cannot be rejected with p-value of 0.0392, which is higher than .025.
+95% Confidence interval is (-6.5314425 -0.1885575).
+```{r echo=F}
+t.test(df_oj_1.0$len, df_oj_2.0$len,var.equal = F)
+```
+VC
+Supp VC for dose between 0.5 and 1.0
+H0 is rejected with p-value of 6.811e-07 and the test indicates there is difference.
+95% Confidence interval is (-11.265712  -6.314288).
+```{r echo=F}
+t.test(df_vc_0.5$len, df_vc_1.0$len,var.equal = F)
+```
+Supp VC for dose between 0.5 and 2.0
+H0 is rejected with p-value of 4.682e-08 and the test indicates there is difference.
+95% Confidence interval is (-21.90151 -14.41849).
+```{r echo=F}
+t.test(df_vc_0.5$len, df_vc_2.0$len,var.equal = F)
+```
+Supp VC for dose between 1.0 and 2.0
+H0 is rejected with p-value of 9.156e-05 and the test indicates there is difference.
+95% Confidence interval is (-13.054267  -5.685733).
+```{r echo=F}
+t.test(df_vc_1.0$len, df_vc_2.0$len,var.equal = F)
+```
+In conclusion, the null hypothesis of no difference in len by supp among doses is rejected, 
+except OJ len between dose 1 and 2, and as a result, it would be reasonable to assume there is indeed
+difference in len among doses statistically.
